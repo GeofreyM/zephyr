@@ -1188,6 +1188,11 @@ static void ucpd_isr(const struct device *dev_inst[])
 	if (sr & UCPD_SR_RXNE) {
 		ucpd_rx_data_byte(dev);
 	}
+	if ((sr & UCPD_SR_RXOVR)) {
+		/*Rx message overrun */
+		LOG_WRN("ucpd: rx message overrun");
+		data->ucpd_rx_msg_active = false;
+	}
 
 	/* Check for end of message */
 	if (sr & UCPD_SR_RXMSGEND) {
