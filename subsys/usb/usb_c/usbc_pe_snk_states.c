@@ -276,7 +276,9 @@ enum smf_state_result pe_snk_select_capability_run(void *obj)
 
 	if (atomic_test_and_clear_bit(pe->flags, PE_FLAGS_MSG_RECEIVED)) {
 		header = prl_rx->emsg.header;
-
+		if (received_control_message(dev, header, PD_CTRL_GOOD_CRC)) {
+			return;
+		}
 		/*
 		 * Transition to the PE_SNK_Transition_Sink state when:
 		 *  1) An Accept Message is received from the Source.
@@ -684,7 +686,7 @@ enum smf_state_result pe_snk_get_source_cap_run(void *obj)
 		 */
 		header = prl_rx->emsg.header;
 
-		if (received_control_message(dev, header, PD_DATA_SOURCE_CAP)) {
+		if(received_data_message(dev, header, PD_DATA_SOURCE_CAP)) {
 			pe_set_state(dev, PE_SNK_EVALUATE_CAPABILITY);
 		}
 	}
