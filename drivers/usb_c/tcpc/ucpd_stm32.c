@@ -367,7 +367,7 @@ static void dead_battery(const struct device *dev, bool en)
 {
 	struct tcpc_data *data = dev->data;
 
-#ifdef CONFIG_SOC_SERIES_STM32G0X
+#if defined(CONFIG_SOC_SERIES_STM32G0X)
 	const struct tcpc_config *const config = dev->config;
 	uint32_t cr;
 
@@ -381,6 +381,12 @@ static void dead_battery(const struct device *dev, bool en)
 
 	LL_UCPD_WriteReg(config->ucpd_port, CR, cr);
 	update_stm32g0x_cc_line(config->ucpd_port);
+#elif defined(CONFIG_SOC_SERIES_STM32H5X)
+	if (en) {
+		CLEAR_BIT(PWR->UCPDR, PWR_UCPDR_UCPD_DBDIS);
+	} else {
+		SET_BIT(PWR->UCPDR, PWR_UCPDR_UCPD_DBDIS);
+	}
 #else
 	if (en) {
 		CLEAR_BIT(PWR->CR3, PWR_CR3_UCPD_DBDIS);
