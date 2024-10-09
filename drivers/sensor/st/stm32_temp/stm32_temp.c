@@ -135,7 +135,7 @@ static int stm32_temp_channel_get(const struct device *dev, enum sensor_channel 
 #endif
 	temp += cfg->cal1_temp;
 
-#if defined(CONFIG_SOC_SERIES_STM32H5X)
+#if defined(CONFIG_SOC_SERIES_STM32H5X) && defined(CONFIG_ICACHE)
 	LL_ICACHE_Enable();
 #endif /* CONFIG_SOC_SERIES_STM32H5X */
 
