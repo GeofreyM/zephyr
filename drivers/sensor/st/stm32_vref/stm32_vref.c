@@ -109,7 +109,7 @@ static int stm32_vref_channel_get(const struct device *dev, enum sensor_channel 
 	/* Calculate VREF+ using VREFINT bandgap voltage and calibration data */
 	vref = (cfg->cal_mv * ((*cfg->cal_addr) >> cfg->cal_shift)) / data->raw;
 
-#if defined(CONFIG_SOC_SERIES_STM32H5X)
+#if defined(CONFIG_SOC_SERIES_STM32H5X) && defined(CONFIG_ICACHE)
 	LL_ICACHE_Enable();
 #endif /* CONFIG_SOC_SERIES_STM32H5X */
 

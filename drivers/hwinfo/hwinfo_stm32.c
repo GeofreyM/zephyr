@@ -31,7 +31,7 @@ ssize_t z_impl_hwinfo_get_device_id(uint8_t *buffer, size_t length)
 	dev_id.id[1] = sys_cpu_to_be32(LL_GetUID_Word1());
 	dev_id.id[2] = sys_cpu_to_be32(LL_GetUID_Word0());
 
-#if defined(CONFIG_SOC_SERIES_STM32H5X)
+#if defined(CONFIG_SOC_SERIES_STM32H5X) && defined (CONFIG_ICACHE)
 	LL_ICACHE_Enable();
 #endif /* CONFIG_SOC_SERIES_STM32H5X */
 

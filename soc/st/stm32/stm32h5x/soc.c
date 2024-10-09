@@ -29,10 +29,12 @@ extern void stm32_power_init(void);
  */
 void soc_early_init_hook(void)
 {
+#if defined(CONFIG_ICACHE)
 	/* Enable instruction cache in 1-way (direct mapped cache) */
 	LL_ICACHE_SetMode(LL_ICACHE_1WAY);
 	LL_ICACHE_Enable();
-
+#endif
+	
 	/* Update CMSIS SystemCoreClock variable (HCLK) */
 	/* At reset, system core clock is set to 32 MHz from HSI with a HSIDIV = 2 */
 	SystemCoreClock = 32000000;

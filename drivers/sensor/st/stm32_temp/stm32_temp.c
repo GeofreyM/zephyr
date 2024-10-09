@@ -114,8 +114,8 @@ static void read_calibration_data(const struct stm32_temp_config *cfg,
 #endif
 
 
-#if defined(CONFIG_SOC_SERIES_STM32H5X)
-	/* Re-enable the ICACHE (unconditonally - it should always be turned on) */
+#if defined(CONFIG_SOC_SERIES_STM32H5X) && defined(CONFIG_ICACHE)
+	/* Re-enable the ICACHE if selected */
 	LL_ICACHE_Enable();
 #endif /* CONFIG_SOC_SERIES_STM32H5X */
 }
