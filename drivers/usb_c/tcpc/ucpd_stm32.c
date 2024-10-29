@@ -1420,6 +1420,10 @@ static int ucpd_init(const struct device *dev)
 			dead_battery(dev, false);
 		}
 
+#if defined(STM32H5) || defined(STM32U5) || defined(STM32H7RS)
+		LL_UCPD_RxAnalogFilterEnable(config->ucpd_port);
+#endif
+
 		/* Initialize the isr */
 		ucpd_isr_init(dev);
 	} else {
