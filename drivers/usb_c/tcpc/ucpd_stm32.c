@@ -1406,6 +1406,10 @@ static int ucpd_init(const struct device *dev)
 			LL_UCPD_ORDERSET_SOP2 | LL_UCPD_ORDERSET_HARDRST;
 		LL_UCPD_WriteReg(config->ucpd_port, CFG1, cfg1);
 
+#if defined(STM32H5) || defined(STM32U5) || defined(STM32H7RS)
+		LL_UCPD_RxAnalogFilterEnable(config->ucpd_port);
+#endif
+
 		/* Enable UCPD port */
 		LL_UCPD_Enable(config->ucpd_port);
 
@@ -1419,10 +1423,6 @@ static int ucpd_init(const struct device *dev)
 			 */
 			dead_battery(dev, false);
 		}
-
-#if defined(STM32H5) || defined(STM32U5) || defined(STM32H7RS)
-		LL_UCPD_RxAnalogFilterEnable(config->ucpd_port);
-#endif
 
 		/* Initialize the isr */
 		ucpd_isr_init(dev);
