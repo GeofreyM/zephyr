@@ -27,4 +27,12 @@ endchoice
 config ROM_START_OFFSET
 	default 0x400 if BOOTLOADER_MCUBOOT
 
+# STM32H533 has 98 interrupt lines (IRQ 0-97 per RM0481 Table 104).
+# This default must appear before the family-level configdefault that
+# computes NUM_IRQS from active DTS nodes only, so that GPDMA2 IRQs
+# (90-97) used via IRQ_CONNECT() are included even when the DMA node
+# is disabled in DTS.
+config NUM_IRQS
+	default 98 if SOC_STM32H533XX
+
 endif # SOC_SERIES_STM32H5X
