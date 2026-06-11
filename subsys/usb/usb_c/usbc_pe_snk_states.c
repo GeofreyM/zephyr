@@ -277,7 +277,7 @@ enum smf_state_result pe_snk_select_capability_run(void *obj)
 	if (atomic_test_and_clear_bit(pe->flags, PE_FLAGS_MSG_RECEIVED)) {
 		header = prl_rx->emsg.header;
 		if (received_control_message(dev, header, PD_CTRL_GOOD_CRC)) {
-			return;
+			return SMF_EVENT_HANDLED;
 		}
 		/*
 		 * Transition to the PE_SNK_Transition_Sink state when:
