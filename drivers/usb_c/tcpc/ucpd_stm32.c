@@ -260,11 +260,11 @@ static int ucpd_set_vconn(const struct device *dev, bool enable)
 	struct tcpc_data *data = dev->data;
 	const struct tcpc_config *const config = dev->config;
 	int cr;
-	int ret;
+	int ret = 0;
 
-	if (data->vconn_cb == NULL) {
-		return -ENOTSUP;
-	}
+	// if (data->vconn_cb == NULL) { disabled as not relevant for sink
+	// 	return -ENOTSUP;
+	// }
 
 	/* Update VCONN on/off status. Do this before getting cc enable mask */
 	data->ucpd_vconn_enable = enable;
@@ -283,8 +283,7 @@ static int ucpd_set_vconn(const struct device *dev, bool enable)
 	/* Get CC line that VCONN is active on */
 	data->ucpd_vconn_cc = (cr & UCPD_CR_CCENABLE_0) ? TC_POLARITY_CC2 : TC_POLARITY_CC1;
 
-	/* Call user supplied callback to set vconn */
-	ret = data->vconn_cb(dev, data->usbc_dev, data->ucpd_vconn_cc, enable);
+	// ret = data->vconn_cb(dev, data->usbc_dev, data->ucpd_vconn_cc, enable); disabled as not relevant for sink
 
 	return ret;
 }
